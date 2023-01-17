@@ -1,0 +1,23 @@
+version: '3.4'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mysql_test
+    environment:
+      - APPLICATION_PORT=${APPLICATION_PORT}
+      - APPLICATION_URL=${APPLICATION_URL}
+      - DATABASE_URL=${DOCKER_DATABASE_URL}
+      - DATABASE_SSL=${DATABASE_SSL}
+      - FOREST_AUTH_SECRET=${FOREST_AUTH_SECRET}
+      - FOREST_ENV_SECRET=${FOREST_ENV_SECRET}
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - FOREST_URL=${FOREST_URL-https://api.development.forestadmin.com}
+    extra_hosts:
+      - api.development.forestadmin.com:host-gateway
+    ports:
+      - "${APPLICATION_PORT}:${APPLICATION_PORT}"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
